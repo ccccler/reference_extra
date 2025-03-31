@@ -67,7 +67,7 @@ def save_to_excel(references, output_path):
 
 def main():
     # 设置文件路径
-    pdf_path = 'breast_cancer/BreastCancerScreeningandDiagnosis_2024.V2_EN_NCCN.pdf'
+    pdf_path = 'breast_cancer/BreastCancer_2024.V5_EN_NCCN.pdf'
     output_path = Path(pdf_path).stem + "_references.xlsx"
     
     # 提取参考文献

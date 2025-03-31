@@ -6,7 +6,7 @@ import time
 def extract_pubmed_info(url):
     try:
         # 添加延迟以避免过快请求
-        time.sleep(0.2)
+        # time.sleep(0.2)
         
         # 发送HTTP请求
         headers = {
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     import urllib3
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     
-    excel_path = "./output_ref/NCCN-BreastCancer_2024.V5_EN_NCCN_pubmed.xlsx"
+    excel_path = "./output_ref/NCCN-BreastCancer_2025.V1_EN_pubmed.xlsx"
     url_column = "url"
     batch_size = 30    # 每批次处理的URL数量
     process_excel(excel_path, url_column, batch_size)
