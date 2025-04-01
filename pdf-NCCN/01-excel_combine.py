@@ -36,5 +36,5 @@ def combine_excel_files(folder_path, output_file='combined_excel.xlsx'):
 # 使用示例
 if __name__ == "__main__":
     # 替换为你的文件夹路径
-    folder_path = "NCCN_2024v5"
+    folder_path = "./Chinese_pre"
     combine_excel_files(folder_path)

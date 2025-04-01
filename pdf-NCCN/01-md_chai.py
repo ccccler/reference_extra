@@ -1,8 +1,8 @@
 import re
 
 def split_text_blocks(text):
-    # 使用正则表达式匹配" 数字 "模式
-    pattern = r'( \d+ )'
+    # 使用正则表达式匹配[数字]模式
+    pattern = r'(\[\d+\])'
     
     # 先用正则表达式分割文本
     blocks = re.split(pattern, text)
@@ -13,12 +13,12 @@ def split_text_blocks(text):
     
     # 处理分割后的文本块
     for i, block in enumerate(blocks):
-        # 如果匹配到" 数字 "模式
-        if re.match(r' \d+ ', block):
-            # 只有当当前块不为空白字符时才添加到结果中
+        # 如果匹配到[数字]模式
+        if re.match(r'\[\d+\]', block):
+            # 如果当前块不为空白字符才添加到结果中
             if current_block.strip():
                 result.append(current_block.strip())
-            # 开始新的文本块
+            # 开始新的文本块，保留[数字]标记
             current_block = block
         else:
             current_block += block
@@ -61,5 +61,5 @@ def process_md_file(file_path):
         return []
 
 # 使用示例
-file_path = "./NCCN_2025v1/ncca_2025v1_100.md"
+file_path = "./Chinese_pre/caca指南.md"
 text_blocks = process_md_file(file_path)

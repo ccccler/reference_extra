@@ -121,9 +121,9 @@ class ReferenceProcessor:
 
 async def main():
     # 读取输入的Excel文件
-    input_file = "./NCCN_2025v1/ncc1_2025v1_all_output.xlsx"
+    input_file = "./content_lines.xlsx"
     df = pd.read_excel(input_file)
-    references = df['内容'].tolist()
+    references = df['Content'].tolist()
 
     # 初始化处理器
     processor = ReferenceProcessor(api_key="app-0vDNiDJUUz7usGZqLn9L1moo", max_concurrent=100)
@@ -133,7 +133,7 @@ async def main():
     
     # 生成带时间戳的输出文件名
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = f"./NCCN_2025v1/aioutput.xlsx"
+    output_file = f"aioutput.xlsx"
     
     # 保存结果
     processor.save_to_excel(output_file)

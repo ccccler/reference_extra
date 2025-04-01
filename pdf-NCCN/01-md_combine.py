@@ -55,7 +55,7 @@ def process_markdown_folder(folder_path, output_excel):
 
 # 使用示例
 if __name__ == '__main__':
-    input_folder = 'NCCN_2025v1'  # 替换为您的markdown文件夹路径
+    input_folder = './Chinese_pre'  # 替换为您的markdown文件夹路径
     output_file = 'output.xlsx'  # 输出的Excel文件名
     
     process_markdown_folder(input_folder, output_file)
