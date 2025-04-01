@@ -3,13 +3,13 @@ import re
 import pandas as pd
 from pathlib import Path
 
-def extract_references(pdf_path, start_page=80, end_page=80):
+def extract_references(pdf_path, start_page=76, end_page=77):
     """
     从PDF文件中提取参考文献
     Args:
         pdf_path: PDF文件路径
-        start_page: 开始页码（默认83）
-        end_page: 结束页码（默认None，表示读到最后一页）
+        start_page: 开始页码
+        end_page: 结束页码
     """
     # 打开PDF文件
     with open(pdf_path, 'rb') as file:
@@ -31,35 +31,41 @@ def extract_references(pdf_path, start_page=80, end_page=80):
         for page_num in range(start_page - 1, end_page):
             text += pdf_reader.pages[page_num].extract_text()
         
-        # 查找References部分 - 修改标题匹配
-        references_match = re.search(r'GENE EXPRESSION ASSAYS.*?REFERENCES\s*(.*?)(?=\n\n|$)', text, re.DOTALL | re.IGNORECASE)
-        if not references_match:
-            print("未找到References部分")
-            return []
+        # 添加更详细的调试打印
+        print("="*50)
+        print("提取的文本前200个字符：")
+        print(text[:200])
+        print("="*50)
+        print("文本总长度：", len(text))
+        print("="*50)
         
-        references_text = references_match.group(1)
-        print("提取到的文本:", references_text)  # 调试用
+        references_text = text  # 直接使用提取的文本，因为图片显示整页都是参考文献
         
-        # 修改正则表达式以匹配上标数字
-        # 使用更宽松的模式来匹配上标数字和普通数字
-        ref_pattern = r'(?:^|\s)([¹²³⁴⁵⁶⁷⁸⁹⁰]+|\d+)\s*((?:(?!(?:^|\s)[¹²³⁴⁵⁶⁷⁸⁹⁰]+|\d+\s).)*)'
-        matches = re.finditer(ref_pattern, references_text, re.DOTALL)
+        # 简化的正则表达式，匹配 "数字 空格 内容" 的格式
+        ref_pattern = r'(?:^|\s)(\d+)\s+(.*?)(?=(?:\s+\d+\s+)|$)'
+        matches = re.finditer(ref_pattern, references_text, re.MULTILINE | re.DOTALL)
         
         references = []
         for match in matches:
             ref_num = match.group(1)
             ref_content = match.group(2).strip()
-            
-            # 将上标数字转换为普通数字
-            ref_num = ref_num.replace('¹', '1').replace('²', '2').replace('³', '3') \
-                            .replace('⁴', '4').replace('⁵', '5').replace('⁶', '6') \
-                            .replace('⁷', '7').replace('⁸', '8').replace('⁹', '9') \
-                            .replace('⁰', '0')
+            # 清理内容中的多余空白字符
+            ref_content = ' '.join(ref_content.split())
             
             references.append({
                 'Reference_Number': int(ref_num),
                 'Content': ref_content
             })
+        
+        # 添加调试打印
+        print(f"总共找到 {len(references)} 条参考文献")
+        
+        # 如果没有找到参考文献，打印一些文本样本供分析
+        if len(references) == 0:
+            print("\n未找到参考文献，显示文本样本：")
+            # 每100个字符打印一行，显示前500个字符
+            for i in range(0, min(500, len(text)), 100):
+                print(f"字符 {i}-{i+100}:", text[i:i+100])
         
         return references
 
@@ -73,8 +79,8 @@ def save_to_excel(references, output_path):
 
 def main():
     # 设置文件路径
-    pdf_path = 'breast_cancer/BreastCancer_2024.V5_EN_NCCN.pdf'
-    output_path = Path(pdf_path).stem + "_80_references.xlsx"
+    pdf_path = 'breast_cancer/BreastCancer_2025.V1_EN.pdf'
+    output_path = "76.xlsx"
     
     # 提取参考文献
     try:

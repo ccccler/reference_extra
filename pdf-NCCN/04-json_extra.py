@@ -37,8 +37,8 @@ def process_json_data(input_file, output_file, json_column_name):
     print(f"数据已成功保存到 {output_file}")
 
 # 使用示例
-input_file = "all_processed_references.xlsx"  # 替换为你的输入文件名
-output_file = "分列processed_references.xlsx"  # 替换为你想要的输出文件名
+input_file = "./NCCN_2025v1/aioutput.xlsx"  # 替换为你的输入文件名
+output_file = "./NCCN_2025v1/terminaout.xlsx"  # 替换为你想要的输出文件名
 json_column_name = "model_response"  # 替换为包含JSON数据的列名
 
 process_json_data(input_file, output_file, json_column_name)
