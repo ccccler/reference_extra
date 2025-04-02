@@ -62,7 +62,7 @@ def main():
         # 读取Excel文件
         # 请将'your_file.xlsx'替换为你的Excel文件名
         # 'urls'替换为包含URL的列名
-        df = pd.read_excel('inside_reference/NCCN_2024v5_middle_output_url.xlsx')
+        df = pd.read_excel('inside_reference_elastic/NCCN_2024v5_middle_output_url_elasticsearch.xlsx')
         
         # 创建存储结果的列表
         results = []

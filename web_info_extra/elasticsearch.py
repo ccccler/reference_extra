@@ -37,12 +37,12 @@ def main():
     # 请替换 'your_excel.xlsx' 为你的Excel文件名
     # 'Sheet1' 为工作表名
     # 'Title' 为列名
-    excel_path = 'test.xlsx'
+    excel_path = 'inside_reference/NCCN_screening_middle_output.xlsx'
     df = pd.read_excel(excel_path, sheet_name='Sheet1')
     
     # 创建新的列来存储所有字段
     new_columns = {
-        'es_id': '',
+        'pubmed_id': '',
         'es_title': '',
         'es_abstract': '',
         # 'es_source_id': '',
@@ -68,7 +68,7 @@ def main():
                 source = first_hit['_source']
                 
                 # 更新各个字段
-                df.at[index, 'es_id'] = first_hit['_id']
+                df.at[index, 'pubmed_id'] = first_hit['_id']
                 df.at[index, 'es_title'] = source.get('title', '')
                 df.at[index, 'es_abstract'] = source.get('abstract', '')
                 # df.at[index, 'es_source_id'] = source.get('source_id', '')
@@ -82,7 +82,7 @@ def main():
             print(f"搜索出错: {str(e)}")
     
     # 保存更新后的Excel文件
-    output_path = 'updated_' + excel_path
+    output_path = 'inside_reference_elastic/NCCN_screening_middle_output_elasticsearch.xlsx'
     df.to_excel(output_path, index=False)
     print(f"\n结果已保存到: {output_path}")
 
