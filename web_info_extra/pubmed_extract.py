@@ -109,7 +109,7 @@ def process_excel(excel_path, url_column, batch_size=30):
                 df.at[i, 'MeSH_Terms'] = result['mesh_terms']
         
         # 每批次完成后保存一次结果
-        output_path = 'pubmedinfo/NCCN_screening_last_output_elasticsearch_pubmed.xlsx'
+        output_path = 'pubmedinfo/CSCO_乳腺癌诊疗指南2023_pubmed.xlsx'
         df.to_excel(output_path, index=False)
         print(f"Intermediate results saved to {output_path}")
         
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     import urllib3
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     
-    excel_path = "last_reference/NCCN-BreastCancerScreeningandDiagnosis_2024.V2_EN_NCCN.xlsx"
-    url_column = "url"
+    excel_path = "chinese_zels/CSCO_乳腺癌诊疗指南2023_elasticsearch.xlsx"
+    url_column = "pubmed_url"
     batch_size = 30    # 每批次处理的URL数量
     process_excel(excel_path, url_column, batch_size)
