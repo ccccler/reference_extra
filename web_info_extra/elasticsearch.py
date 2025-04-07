@@ -37,30 +37,25 @@ def main():
     # 请替换 'your_excel.xlsx' 为你的Excel文件名
     # 'Sheet1' 为工作表名
     # 'Title' 为列名
-    excel_path = 'chinese_raw/CSCO_乳腺癌诊疗指南2023.xlsx'
+    excel_path = 'test.xlsx'
     df = pd.read_excel(excel_path, sheet_name='Sheet1')
     
-    # 创建新的列来存储所有字段
-    new_columns = {
-        'pubmed_id': '',
-        'es_title': '',
-        'es_abstract': '',
-        # 'es_source_id': '',
-        'es_journal': '',
-        'es_doi': '',
-        # 'es_full_source': ''  # 保存完整的_source以备查看
-    }
-    
-    # 添加新列
-    for col in new_columns:
-        df[col] = new_columns[col]
+    # 创建一个列表来存储所有搜索结果
+    all_results = []
     
     # 对每个标题进行搜索
     for index, row in df.iterrows():
-        title = row['title']  # 请确保这里的'Title'与你的Excel列名一致
+        title = row['title']
         print(f"\n搜索标题: {title}")
         try:
             results = search_elasticsearch(title)
+            # 将每个搜索结果添加到列表中，同时保存原始标题
+            result_entry = {
+                'original_title': title,
+                'search_results': results
+            }
+            all_results.append(result_entry)
+            
             # 检查是否有搜索结果
             if results['hits']['hits']:
                 # 获取第一个匹配结果
@@ -81,10 +76,16 @@ def main():
         except Exception as e:
             print(f"搜索出错: {str(e)}")
     
+    # 保存所有搜索结果到JSON文件
+    json_output_path = 'search_results.json'
+    with open(json_output_path, 'w', encoding='utf-8') as f:
+        json.dump(all_results, f, ensure_ascii=False, indent=2)
+    print(f"\nJSON结果已保存到: {json_output_path}")
+    
     # 保存更新后的Excel文件
-    output_path = 'chinese_raw/CSCO_乳腺癌诊疗指南2023_elasticsearch.xlsx'
+    output_path = 'test_output.xlsx'
     df.to_excel(output_path, index=False)
-    print(f"\n结果已保存到: {output_path}")
+    print(f"Excel结果已保存到: {output_path}")
 
 if __name__ == "__main__":
     main()
