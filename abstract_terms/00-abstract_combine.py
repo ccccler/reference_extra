@@ -36,6 +36,6 @@ def process_json_file(input_file, output_file):
 
 # 使用示例
 if __name__ == "__main__":
-    input_file = "./reference_extra/test_data.json"  # 输入文件路径
-    output_file = "./reference_extra/output_data.json"  # 输出文件路径
+    input_file = "test_data.json"  # 输入文件路径
+    output_file = "abcom_output_data.json"  # 输出文件路径
     process_json_file(input_file, output_file)

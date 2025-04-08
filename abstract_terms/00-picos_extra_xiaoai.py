@@ -23,21 +23,33 @@ class BackgroundProcessor:
         messages = [
             {
                 "role": "system",
-                "content": """你是一个医学论文提取助手，请从医学论文摘要中提取出研究内容关键词，方便之后利用关键词检索相关论文。
-                在进行提取时，请参考循证医学中的PICOS原则，从摘要中提取出医学相关的研究关键词。提取的关键词最好是与PICOS原则相关的，探讨的是医学领域。
-                关键词以英文反馈，最多不超过7个，要求以json格式输出。注意，只允许返回json格式，不要输出其他内容。
+                "content": """
+                # 你是一个医学论文的标签提取助手，能够协助提取每篇医学文献的关键词，方便特定领域Meta分析的撰写。，我会提供给你一份论文摘要，请你仔细阅读摘要，从中提取出相关关键词。
+                关键词的提取分为两条路线，第一条路线是根据循证医学中的PICOS原则，从摘要中提取出该研究对应PICOS的研究关键词。
+                第二条路线是提取研究内容，识别其对应的MeSHTerm关键词。
+                关键词以英文反馈，要求以json格式输出。注意，只允许返回json格式，不要输出其他内容。
                 
-                # 请按照以下json格式输出分析结果：  
+                # 请严格按照以下json格式输出分析结果：  
                 {{
-                    "PICOS_term1": "", 
-                    "PICOS_term2": "",  
-                    "PICOS_term3": "",
-                    ......
-                }}"""
+                    "PICOS": {{ 
+                        "Participant/Patients": "", 
+                        "Intervention/Exposure": "",  
+                        "Comparison": "",
+                        "Outcome": "",
+                        "Study Design": ""
+                    }},
+                    "MeSHTerm": {{
+                        "MeSHTerm1": "",
+                        "MeSHTerm2": "",
+                        "MeSHTerm3": "",
+                        ......
+                    }}
+                }}
+                """
             },
             {
                 "role": "user",
-                "content": f"请分析以下研究背景：{abstract}"
+                "content": f"# 研究摘要：{abstract}"
             }
         ]
 
